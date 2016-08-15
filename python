@@ -1,0 +1,92 @@
+zed
+http://www.chokepoint.net/2013/11/php-database-programming-introducing.html
+brb porting to python
+tl;dr I want to replace the sql sting literals in flask, with the magic database table proxy classes in Ormclass
+and literally
+just write python
+I mean
+there's the template thing
+http://flask.pocoo.org/docs/0.11/patterns/sqlalchemy/?
+https://bitbucket.org/zzzeek/sqlalchemy/src
+sqlalchemy is like um
+an api to make objects out of database tables, layered on top of some kind of fucked up api that is basically a 1 to 1 mapping of sql statements wrapped in python statements as opposed to ormclass which is basically like
+
+$article  = new article($_GET['id']);
+    # or 
+    $article  = new article($_GET['title']);
+    # or
+    $articles = new article($array_of_ids);
+    # or 
+    $articles = new article($array_of_titles);
+    # or 
+    $articles = new article($nested_mixed_array_of_titles_and_ids);    "
+
+where new article(0) is a create record
+and then like
+
+h gay
+
+Wel
+It's more
+I not explain well
+um
+The main thing is it automatically coerces database datatypes to the native language; so like it returns a native language object that you just set values to and then hit save().
+So no more shit lik
+e
+)"
+er
+
+class User(object):
+    query = db_session.query_property()
+
+    def __init__(self, name=None, email=None):
+        self.name = name
+        self.email = email
+
+    def __repr__(self):
+        return '<User %r>' % (self.name)
+
+users = Table('users', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('name', String(50), unique=True),
+    Column('email', String(120), unique=True)
+)
+mapper(User, users)
+
+that would just be like
+nothing
+class User(ormclass):
+ pass
+actually
+then like
+ok translating from php here
+tl;dr then you'd be like user New User()
+idk, you might get what I mean
+the class is an automatic table representation the instance is a record or records based on how you instantiate it
+that is autopopulated with fields/data which you then modify and .save()
+literaly no sql.
+BUT THEN
+
+"The constructor will automatically check to determine if a method called construct() exists in its child class. If so, it will invoke the function after it has preloaded all of the relevant data into the object. This is how relations can be maintained. Its a bit hackier than most ORM's (there's no configuration file in which you simply state the relations), but it gets the job done and allows the programmer to have control over whether or not relations are followed and child objects are created by default. The ORM requires that every table have an 'id' column. The 'name' column is optional. Here is an example relation:
+
+    class article extends ormclass {
+        function construct() {
+            $this->author = new author($this->author_id);
+        }
+    }
+
+    In this example, you could later:
+
+     $article = new article($id);
+     echo $article->author->name; # or other author property.
+"
+
+Also: overiding the 'load by' ("article($_GET['id']);") is trivial
+private function load_by_id($id) {
+    $this->id = abs((int)$id);
+    $this->property_cache = $this->query_row("select * from $this->class_name where id=$this->id limit 1");
+    $this->populate();
+  }
+tbh
+it's 199 lines with empty lines; it's just an basis to extend without a bunch of garbage
+but it's so fucking simple
