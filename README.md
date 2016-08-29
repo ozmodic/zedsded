@@ -1,2 +1,2 @@
 # zedsded
-a repository of awesome ideas courtesy of zed (he's dead)
+a repository of ~~awesome~~ useless ideas courtesy of ~~zed~~ (he's dead)
