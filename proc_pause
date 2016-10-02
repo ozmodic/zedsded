@@ -1,3 +1,4 @@
 https://blogs.msdn.microsoft.com/oldnewthing/20040420-00/?p=39723
 
 ^^ re-read above and figure if it's possible to use function hijacking (detours?) in order to re-acquire said lost mutexes
+Consider also this concept in linux(/unix?) if not already possible via shared object preloading (LD_PRELOAD)
